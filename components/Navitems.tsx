@@ -10,8 +10,6 @@ const navItems = [{label:'Home',href:'/'},
 
 const Navitems = () => {
 const pathName = usePathname();
-console.log(pathName);
-
   return (
     <nav className='flex items-center gap-4'>
         {navItems.map(({label,href})=>(
