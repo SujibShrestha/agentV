@@ -6,6 +6,7 @@ import Image from "next/image";
 import soundwaves from "@/constants/soundwaves.json"
 import { useEffect, useRef, useState } from "react";
 import { set } from "zod";
+import { addToSessionHistory } from "@/lib/actions/companion.actions";
 
 
 enum CallStatus{
@@ -60,8 +61,10 @@ const CompanionComponent = ({companionId,subject,topic,name,userName,userImage,s
     const onCallStart = ()=>{
         setCallStatus(CallStatus.ACTIVE );
     }
-    const onCallEnd = ()=>{
-        setCallStatus(CallStatus.FINISHED);
+    const onCallEnd = ()=>{ 
+      
+        setCallStatus(CallStatus.FINISHED); 
+         addToSessionHistory(companionId);
     }
     const onMessage = (message:Message)=>{
 if(message.type==='transcript'&& message.transcriptType === 'final'){
@@ -127,7 +130,7 @@ setmessages((prev)=>[newMessage,...prev]);
       
         <p className="font-bold text-2xl">{userName}</p> 
                  </div>
-                 <button className="btn-mic" onClick={toggleMicrophone}>
+                 <button className="btn-mic" onClick={toggleMicrophone} disabled={callStatus !== CallStatus.ACTIVE}>
                     <Image src={isMuted ? "/icons/mic-off.svg" : "/icons/mic-on.svg"} alt="Microphone" width={36} height={36}/>
                 <p className="max-sm:hidden">
                     {isMuted ? "Turn On MicroPhone" : "Turn Off MicroPhone"}
@@ -140,9 +143,9 @@ setmessages((prev)=>[newMessage,...prev]);
 </section>
 <section className="transcript">
 <div className="trascript-message no-scroll-bar">
- {messages.map((message)=>{
+ {messages.map((message,index)=>{
     if(message.role === 'assistant'){
-        return <p key={message.content} className="max-sm:text-sm">
+        return <p key={index} className="max-sm:text-sm">
             {name.split(' ')[0].replace('/[,.]/g',"")}: {message.content}
         </p>}else{
            return <p key={message.content} className="text-primary max-sm:text-sm">
