@@ -34,8 +34,7 @@ const formSchema = z.object({
   topic: z.string().min(1,{message:"Topic is required"}),
   voice: z.string().min(1,{message:"Voice is required"}),
   style: z.string().min(1,{message:"Style is required"}),
-  duration: z.number().min(1,{message:"duration is required"}),
-
+ duration: z.number().min(1, "Duration must be at least 1"),
 })
 
 const CompanionForm = () => {
@@ -161,14 +160,15 @@ const CompanionForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        /><FormField
+        />
+        <FormField
           control={form.control}
           name="duration"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Estimated Session Time</FormLabel>
               <FormControl>
-                <Input type={"number"} placeholder="15" className="input"  {...field} />
+                <Input type="number" placeholder="15" className="input"  {...field}  onChange={(e) => field.onChange(e.target.valueAsNumber)} />
               </FormControl>
               <FormMessage />
             </FormItem>
