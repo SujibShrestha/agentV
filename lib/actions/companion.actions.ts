@@ -9,7 +9,7 @@ export const getAllCompanions = async ({
   subject,
   topic,
 }: GetAllCompanions) => {
-  const supabase = createSupabaseClient();
+  const supabase =await createSupabaseClient();
 
   let query = supabase.from("companions").select("*");
 
