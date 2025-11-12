@@ -9,7 +9,6 @@ import { getSubjectColor } from '@/lib/utils'
 const Page = async() => {
   const companions = await getAllCompanions({limit:4})
   const recentSessions = await getRecentSessions(10);
-console.log(companions)
   return (
     <main>
     <h1 className='text-2xl underline'>Popular Companions</h1>
